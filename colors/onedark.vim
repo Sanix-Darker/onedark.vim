@@ -6,7 +6,7 @@
 " Based On:   https://github.com/MaxSt/FlatColor/
 
 " Companion statusline plugin and terminal themes are included with onedark.vim:
-"  * https://github.com/joshdick/onedark.vim#lightlinevim-colorscheme
+"  *
 "  * https://github.com/joshdick/onedark.vim#vim-airline-theme
 "  * https://github.com/joshdick/onedark.vim/tree/main/term
 
@@ -85,9 +85,6 @@ function! s:h(group, style, ...)
     if (has_key(a:style, "gui"))
       let s:highlight.gui = a:style.gui
     endif
-    if (has_key(a:style, "cterm"))
-      let s:highlight.cterm = a:style.cterm
-    endif
   else
     let s:highlight = a:style
     let s:group_colors[a:group] = s:highlight " Cache default highlight group settings
@@ -160,36 +157,6 @@ let s:vertsplit = s:colors.vertsplit
 
 " }}}
 
-" Terminal Colors {{{
-
-if has('nvim')
-  let g:terminal_color_0 = s:black.gui
-  let g:terminal_color_1 = s:red.gui
-  let g:terminal_color_2 = s:green.gui
-  let g:terminal_color_3 = s:yellow.gui
-  let g:terminal_color_4 = s:blue.gui
-  let g:terminal_color_5 = s:purple.gui
-  let g:terminal_color_6 = s:cyan.gui
-  let g:terminal_color_7 = s:comment_grey.gui
-  let g:terminal_color_8 = s:visual_grey.gui
-  let g:terminal_color_9 = s:red.gui
-  let g:terminal_color_10 = s:green.gui
-  let g:terminal_color_11 = s:yellow.gui
-  let g:terminal_color_12 = s:blue.gui
-  let g:terminal_color_13 = s:purple.gui
-  let g:terminal_color_14 = s:cyan.gui
-  let g:terminal_color_15 = s:white.gui
-else
-  let g:terminal_ansi_colors = [
-    \ s:black.gui, s:red.gui, s:green.gui, s:yellow.gui,
-    \ s:blue.gui, s:purple.gui, s:cyan.gui, s:comment_grey.gui,
-    \ s:visual_grey.gui, s:red.gui, s:green.gui, s:yellow.gui,
-    \ s:blue.gui, s:purple.gui, s:cyan.gui, s:white.gui
-  \]
-endif
-
-" }}}
-
 " Syntax Groups (descriptions and ordering from `:h w18`) {{{
 
 call s:h("Comment", { "fg": s:comment_grey, "gui": "italic", "cterm": "italic" }) " any comment
@@ -206,7 +173,7 @@ call s:h("Conditional", { "fg": s:purple }) " if, then, else, endif, switch, etc
 call s:h("Repeat", { "fg": s:purple }) " for, do, while, etc.
 call s:h("Label", { "fg": s:purple }) " case, default, etc.
 call s:h("Operator", { "fg": s:purple }) " sizeof", "+", "*", etc.
-call s:h("Keyword", { "fg": s:purple }) " any other keyword
+call s:h("Keyword", { "fg": s:red }) " any other keyword
 call s:h("Exception", { "fg": s:purple }) " try, catch, throw
 call s:h("PreProc", { "fg": s:yellow }) " generic Preprocessor
 call s:h("Include", { "fg": s:blue }) " preprocessor #include
@@ -240,7 +207,7 @@ if &diff
   " Don't change the background color in diff mode
   call s:h("CursorLine", { "gui": "underline" }) " the screen line that the cursor is in when 'cursorline' is set
 else
-  call s:h("CursorLine", { "bg": s:cursor_grey }) " the screen line that the cursor is in when 'cursorline' is set
+  call s:h("CursorLine", { "bg": s:black }) " the screen line that the cursor is in when 'cursorline' is set
 endif
 call s:h("Directory", { "fg": s:blue }) " directory names (and other special names in listings)
 call s:h("DiffAdd", { "bg": s:green, "fg": s:black }) " diff mode: Added line
@@ -258,7 +225,7 @@ call s:h("FoldColumn", {}) " 'foldcolumn'
 call s:h("SignColumn", {}) " column where signs are displayed
 call s:h("IncSearch", { "fg": s:yellow, "bg": s:comment_grey }) " 'incsearch' highlighting; also used for the text replaced with ":s///c"
 call s:h("LineNr", { "fg": s:gutter_fg_grey }) " Line number for ":number" and ":#" commands, and when 'number' or 'relativenumber' option is set.
-call s:h("CursorLineNr", {}) " Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
+call s:h("CursorLineNr", {"bg": s:black}) " Like LineNr when 'cursorline' or 'relativenumber' is set for the cursor line.
 call s:h("MatchParen", { "fg": s:blue, "gui": "underline", "cterm": "underline" }) " The character under the cursor or just before it, if it is a paired bracket, and its match.
 call s:h("ModeMsg", {}) " 'showmode' message (e.g., "-- INSERT --")
 call s:h("MoreMsg", {}) " more-prompt
@@ -286,7 +253,7 @@ call s:h("TabLineSel", { "fg": s:white }) " tab pages line, active tab page labe
 call s:h("Terminal", { "fg": s:white, "bg": s:black }) " terminal window (see terminal-size-color)
 call s:h("Title", { "fg": s:green }) " titles for output from ":set all", ":autocmd" etc.
 call s:h("Visual", { "bg": s:visual_grey }) " Visual mode selection
-call s:h("VisualNOS", { "bg": s:visual_grey }) " Visual mode selection when vim is "Not Owning the Selection". Only X11 Gui's gui-x11 and xterm-clipboard supports this.
+call s:h("VisualNOS", { "bg": s:visual_grey }) " Visual mode selection when vim is Not Owning the Selection. Only X11 Gui's gui-x11 and xterm-clipboard supports this.
 call s:h("WarningMsg", { "fg": s:yellow }) " warning messages
 call s:h("WildMenu", { "fg": s:black, "bg": s:blue }) " current match in 'wildmenu' completion
 
@@ -343,7 +310,6 @@ call s:h("goTypeDecl", { "fg": s:purple })
 " HTML (keep consistent with Markdown, below)
 call s:h("htmlArg", { "fg": s:dark_yellow })
 call s:h("htmlBold", { "fg": s:dark_yellow, "gui": "bold", "cterm": "bold" })
-call s:h("htmlBoldItalic", { "fg": s:green, "gui": "bold,italic", "cterm": "bold,italic" })
 call s:h("htmlEndTag", { "fg": s:white })
 call s:h("htmlH1", { "fg": s:red })
 call s:h("htmlH2", { "fg": s:red })
@@ -436,7 +402,6 @@ call s:h("lessClass", { "fg": s:dark_yellow })
 " Markdown (keep consistent with HTML, above)
 call s:h("markdownBlockquote", { "fg": s:comment_grey })
 call s:h("markdownBold", { "fg": s:dark_yellow, "gui": "bold", "cterm": "bold" })
-call s:h("markdownBoldItalic", { "fg": s:green, "gui": "bold,italic", "cterm": "bold,italic" })
 call s:h("markdownCode", { "fg": s:green })
 call s:h("markdownCodeBlock", { "fg": s:green })
 call s:h("markdownCodeDelimiter", { "fg": s:green })
@@ -575,11 +540,8 @@ call s:h("GitGutterDelete", { "fg": s:red })
 
 " dense-analysis/ale
 call s:h("ALEError", { "fg": s:red, "gui": "underline", "cterm": "underline" })
-call s:h("ALEWarning", { "fg": s:yellow, "gui": "underline", "cterm": "underline" })
-call s:h("ALEInfo", { "gui": "underline", "cterm": "underline" })
-call s:h("ALEErrorSign", { "fg": s:red })
-call s:h("ALEWarningSign", { "fg": s:yellow })
-call s:h("ALEInfoSign", { })
+call s:h("ALEWarning", { "fg": s:yellow, "gui": "underline", "cterm": "underline"})
+call s:h("ALEInfo", { "gui": "underline", "cterm": "underline"})
 
 " easymotion/vim-easymotion
 call s:h("EasyMotionTarget", { "fg": s:red, "gui": "bold", "cterm": "bold" })
@@ -602,9 +564,6 @@ call s:h("CocErrorSign", { "fg": s:red })
 call s:h("CocWarningSign", { "fg": s:yellow })
 call s:h("CocInfoSign", { "fg": s:blue })
 call s:h("CocHintSign", { "fg": s:cyan })
-call s:h("CocFadeOut", { "fg": s:comment_grey })
-" https://github.com/joshdick/onedark.vim/issues/313
-highlight! link CocMenuSel PmenuSel
 
 " neomake/neomake
 call s:h("NeomakeErrorSign", { "fg": s:red })
@@ -618,14 +577,10 @@ call s:h("mkdLink", { "fg": s:blue })
 call s:h("mkdURL", { "fg": s:cyan, "gui": "underline", "cterm": "underline" })
 
 " prabirshrestha/vim-lsp
-call s:h("LspErrorText", { "fg": s:red })
-call s:h("LspWarningText", { "fg": s:yellow })
-call s:h("LspInformationText", { "fg":s:blue })
-call s:h("LspHintText", { "fg":s:cyan })
-call s:h("LspErrorHighlight", { "fg": s:red, "gui": "underline", "cterm": "underline" })
-call s:h("LspWarningHighlight", { "fg": s:yellow, "gui": "underline", "cterm": "underline" })
-call s:h("LspInformationHighlight", { "fg":s:blue, "gui": "underline", "cterm": "underline" })
-call s:h("LspHintHighlight", { "fg":s:cyan, "gui": "underline", "cterm": "underline" })
+call s:h("LspError", { "fg": s:red })
+call s:h("LspWarning", { "fg": s:yellow })
+call s:h("LspInformation", { "fg": s:blue })
+call s:h("LspHint", { "fg": s:cyan })
 
 " tpope/vim-fugitive
 call s:h("diffAdded", { "fg": s:green })
@@ -710,4 +665,35 @@ endif
 
 " Must appear at the end of the file to work around this oddity:
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
-set background=dark
+" set background=dark
+" >> for transparent background
+function! AdaptColorscheme()
+   highlight clear CursorLine
+   highlight Normal ctermbg=none
+   highlight LineNr ctermbg=none
+   highlight Folded ctermbg=none
+   highlight NonText ctermbg=none
+   highlight SpecialKey ctermbg=none
+   highlight VertSplit ctermbg=none
+   highlight SignColumn ctermbg=none
+endfunction
+autocmd ColorScheme * call AdaptColorscheme()
+
+highlight Normal guibg=NONE ctermbg=NONE
+highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=NONE
+highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE
+highlight CursorLineNr cterm=NONE ctermbg=NONE ctermfg=NONE
+highlight clear LineNr
+highlight clear SignColumn
+" highlight clear StatusLine
+
+autocmd InsertEnter * set nocursorline
+autocmd InsertLeave,VimEnter,BufEnter * set cursorline
+" Default Colors for CursorLine
+highlight CursorLine ctermbg=236 ctermfg=None
+
+"" extra settings, uncomment them if necessary :)
+"set cursorline
+"set noshowmode
+"set nocursorline
+" >> trasparent end
