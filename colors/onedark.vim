@@ -667,17 +667,50 @@ endif
 " https://groups.google.com/forum/#!msg/vim_dev/afPqwAFNdrU/nqh6tOM87QUJ
 " set background=dark
 " >> for transparent background
+"function! AdaptColorscheme()
+"   highlight clear CursorLine
+"   highlight Normal ctermbg=none
+"   highlight LineNr ctermbg=none
+"   highlight Folded ctermbg=none
+"   highlight NonText ctermbg=none
+"   highlight SpecialKey ctermbg=none
+"   highlight VertSplit ctermbg=none
+"   highlight SignColumn ctermbg=none
+"endfunction
+"autocmd ColorScheme * call AdaptColorscheme()
+
+"highlight Normal guibg=NONE ctermbg=NONE
+"highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=NONE
+"highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE
+"highlight CursorLineNr cterm=NONE ctermbg=NONE ctermfg=NONE
+"highlight clear LineNr
+"highlight clear SignColumn
+"" highlight clear StatusLine
+
+"autocmd InsertEnter * set nocursorline
+"autocmd InsertLeave,VimEnter,BufEnter * set cursorline
+"" Default Colors for CursorLine
+"highlight CursorLine ctermbg=236 ctermfg=None
+
+""" extra settings, uncomment them if necessary :)
+""set cursorline
+""set noshowmode
+""set nocursorline
+"" >> trasparent end
+
+
+" >> for transparent background
 function! AdaptColorscheme()
-   highlight clear CursorLine
-   highlight Normal ctermbg=none
-   highlight LineNr ctermbg=none
-   highlight Folded ctermbg=none
-   highlight NonText ctermbg=none
-   highlight SpecialKey ctermbg=none
-   highlight VertSplit ctermbg=none
-   highlight SignColumn ctermbg=none
+    highlight clear CursorLine
+    highlight Normal ctermbg=none
+    highlight LineNr ctermbg=none
+    highlight Folded ctermbg=none
+    highlight NonText ctermbg=none
+    highlight SpecialKey ctermbg=none
+    highlight VertSplit ctermbg=none
+    highlight SignColumn ctermbg=none
 endfunction
-autocmd ColorScheme * call AdaptColorscheme()
+au ColorScheme * call AdaptColorscheme()
 
 highlight Normal guibg=NONE ctermbg=NONE
 highlight CursorColumn cterm=NONE ctermbg=NONE ctermfg=NONE
@@ -685,12 +718,17 @@ highlight CursorLine cterm=NONE ctermbg=NONE ctermfg=NONE
 highlight CursorLineNr cterm=NONE ctermbg=NONE ctermfg=NONE
 highlight clear LineNr
 highlight clear SignColumn
-" highlight clear StatusLine
+highlight clear StatusLine
 
-autocmd InsertEnter * set nocursorline
-autocmd InsertLeave,VimEnter,BufEnter * set cursorline
+au InsertEnter * set nocursorline
+au InsertLeave,VimEnter,BufEnter * set cursorline
 " Default Colors for CursorLine
 highlight CursorLine ctermbg=236 ctermfg=None
+
+" For whichKey to be compatible with my colorscheme
+au ColorScheme * highlight WhichKeyFloat cterm=NONE guibg=NONE ctermbg=NONE ctermfg=NONE
+" Minimap highlight
+" au ColorScheme * highlight minimapRange ctermbg=236 ctermfg=2 guibg=236 guifg=#0089D9
 
 "" extra settings, uncomment them if necessary :)
 "set cursorline
